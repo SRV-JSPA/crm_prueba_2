@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: crm2024
+      POSTGRES_DB: crm
+    networks:
+      - backend  # Agregar una red para comunicación interna
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "crm2024"
+    ports:
+      - 80:80
+    depends_on:
+      - postgres
+    networks:
+      - backend  # Usar la misma red para comunicación interna
+
+networks:
+  backend:  # Definir la red para comunicación interna
+    driver: bridge  # Puedes cambiar el driver si es necesario
